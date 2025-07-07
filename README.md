@@ -34,7 +34,7 @@ Download it from Kaggle:
    pip install flask scikit-learn pandas numpy
 3. **Start the Flask application**
    python app.py
-4.**Open your browser and go to**
+4. **Open your browser and go to**
    http://localhost:5000
    
 ## Output Example
