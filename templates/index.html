@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedicalDiagnosisSystem</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    
+</head>
+<body class="bg-light-blue">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-heartbeat me-2"></i> HealthDiagnose
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/survey"><i class="fas fa-clipboard-check me-1"></i> Take a Survey</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section bg-primary text-white py-4">
+        <div class="container py-3">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1 class="display-5 fw-bold mb-3">Medical Diagnosis System</h1>
+                    <p class="mb-4">Select your symptoms to get potential health insights</p>
+                    <div class="search-container bg-white rounded-pill p-1 shadow-sm w-75 mx-auto">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-0"><i class="fas fa-search text-primary"></i></span>
+                            <input type="text" class="form-control border-0 shadow-none" id="symptom-search" placeholder="Search symptoms...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container my-4">
+        <div class="row g-3">
+            <!-- Patient Information -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle me-3">
+                                <i class="fas fa-user-circle text-primary"></i>
+                            </div>
+                            <h4 class="mb-0">Patient Information</h4>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age" placeholder="Enter your age">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select id="gender" class="form-select">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Symptoms Selection -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white border-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Select Your Symptoms</h4>
+                                <p class="text-muted small mb-0">Check all symptoms you're currently experiencing</p>
+                            </div>
+                            <div class="badge bg-primary bg-opacity-10 text-primary rounded-pill" id="selected-count">0 selected</div>
+                        </div>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2" id="symptoms-container">
+                            <!-- Symptoms will be loaded here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <button id="submit" class="btn btn-primary btn-lg px-4 py-2">
+                        <i class="fas fa-diagnoses me-2"></i> Analyze Symptoms
+                    </button>
+                </div>
+                
+                <!-- Results Section -->
+                <div class="card shadow-sm border-0 mt-3" id="results-section" style="display: none;">
+                    <div class="card-body">
+                        <div class="text-center mb-3">
+                            <div class="bg-primary bg-opacity-10 p-2 rounded-circle d-inline-block mb-2">
+                                <i class="fas fa-file-medical-alt text-primary"></i>
+                            </div>
+                            <h3 class="mb-1">Diagnosis Report</h3>
+                            <p class="text-muted small">Based on your selected symptoms</p>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-borderless">
+                                <tbody>
+                                    <tr>
+                                        <th class="bg-light-blue ps-2">Patient Name</th>
+                                        <td id="nm" class="fw-semibold">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light-blue ps-2">Age</th>
+                                        <td id="ag" class="fw-semibold">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light-blue ps-2">Gender</th>
+                                        <td id="gd" class="fw-semibold">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light-blue ps-2 align-top">Selected Symptoms</th>
+                                        <td id="syp" class="fw-semibold">-</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="bg-light-blue ps-2">Potential Condition</th>
+                                        <td class="disease-result fw-bold text-primary" id="result">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="alert alert-primary mt-3" id="better">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-heart me-2"></i>
+                                <div>
+                                    <h5 class="alert-heading mb-1">We hope you get well soon!</h5>
+                                    <p class="mb-0 small">This is not a substitute for professional medical advice.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-3 mt-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 class="d-flex align-items-center mb-2 mb-md-0">
+                        <i class="fas fa-heartbeat me-2"></i> HealthDiagnose
+                    </h5>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="small mb-0">&copy; 2025 HealthDiagnose. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Organize symptoms into categories for better UX
+            const symptomCategories = {
+                "General": ['Fever', 'Fatigue', 'Weight gain', 'Weight loss', 'Chills', 'Sweating'],
+                "Pain": ['Headache', 'Joint pain', 'Stomach pain', 'Back pain', 'Chest pain', 'Muscle pain'],
+                "Respiratory": ['Cough', 'Breathlessness', 'Runny nose', 'Congestion', 'Sneezing'],
+                "Digestive": ['Vomiting', 'Diarrhoea', 'Constipation', 'Nausea', 'Loss of appetite'],
+                "Skin": ['Itching', 'Skin rash', 'Blisters', 'Red spots'],
+                "Other": ['Dizziness', 'Anxiety', 'Restlessness', 'Depression']
+            };
+
+            // Full list of all symptoms
+            const symptoms = [
+                'Itching', 'Skin rash', 'Nodal skin eruptions', 'Continuous sneezing', 'Shivering', 
+                'Chills', 'Joint pain', 'Stomach pain', 'Acidity', 'Ulcers on tongue', 'Muscle wasting', 
+                'Vomiting', 'Burning micturition', 'Spotting urination', 'Fatigue', 'Weight gain', 
+                'Anxiety', 'Cold hands and feets', 'Mood swings', 'Weight loss', 'Restlessness', 
+                'Lethargy', 'Patches in throat', 'Irregular sugar level', 'Cough', 'High fever', 
+                'Sunken eyes', 'Breathlessness', 'Sweating', 'Dehydration', 'Indigestion', 'Headache', 
+                'Yellowish skin', 'Dark urine', 'Nausea', 'Loss of appetite', 'Pain behind the eyes', 
+                'Back pain', 'Constipation', 'Abdominal pain', 'Diarrhoea', 'Mild fever', 'Yellow urine', 
+                'Yellowing of eyes', 'Acute liver failure', 'Fluid overload', 'Swelling of stomach', 
+                'Swelled lymph nodes', 'Malaise', 'Blurred and distorted vision', 'Phlegm', 
+                'Throat irritation', 'Redness of eyes', 'Sinus pressure', 'Runny nose', 'Congestion', 
+                'Chest pain', 'Weakness in limbs', 'Fast heart rate', 'Pain during bowel movements', 
+                'Pain in anal region', 'Bloody stool', 'Irritation in anus', 'Neck pain', 'Dizziness', 
+                'Cramps', 'Bruising', 'Obesity', 'Swollen legs', 'Swollen blood vessels', 
+                'Puffy face and eyes', 'Enlarged thyroid', 'Brittle nails', 'Swollen extremeties', 
+                'Excessive hunger', 'Extra marital contacts', 'Drying and tingling lips', 'Slurred speech', 
+                'Knee pain', 'Hip joint pain', 'Muscle weakness', 'Stiff neck', 'Swelling joints', 
+                'Movement stiffness', 'Spinning movements', 'Loss of balance', 'Unsteadiness', 
+                'Weakness of one body side', 'Loss of smell', 'Bladder discomfort', 'Foul smell of urine', 
+                'Continuous feel of urine', 'Passage of gases', 'Internal itching', 'Toxic look (typhos)', 
+                'Depression', 'Irritability', 'Muscle pain', 'Altered sensorium', 'Red spots over body', 
+                'Belly pain', 'Abnormal menstruation', 'Dischromic patches', 'Watering from eyes', 
+                'Increased appetite', 'Polyuria', 'Family history', 'Mucoid sputum', 'Rusty sputum', 
+                'Lack of concentration', 'Visual disturbances', 'Receiving blood transfusion', 
+                'Receiving unsterile injections', 'Coma', 'Stomach bleeding', 'Distention of abdomen', 
+                'History of alcohol consumption', 'Fluid overload.1', 'Blood in sputum', 
+                'Prominent veins on calf', 'Palpitations', 'Painful walking', 'Pus filled pimples', 
+                'Blackheads', 'Scurring', 'Skin peeling', 'Silver like dusting', 'Small dents in nails', 
+                'Inflammatory nails', 'Blister', 'Red sore around nose', 'Yellow crust ooze'
+            ];
+
+            // Generate symptom checkboxes in compact grid layout
+            function renderSymptoms() {
+                const container = document.getElementById('symptoms-container');
+                container.innerHTML = '';
+                
+                symptoms.forEach((symptom, index) => {
+                    const colDiv = document.createElement('div');
+                    colDiv.className = 'col';
+                    
+                    colDiv.innerHTML = `
+                        <div class="form-check">
+                            <input class="form-check-input symptom-checkbox" type="checkbox" id="btn-check-${index+1}">
+                            <label class="form-check-label" for="btn-check-${index+1}">
+                                ${symptom}
+                            </label>
+                        </div>
+                    `;
+                    
+                    container.appendChild(colDiv);
+                });
+                
+                // Add event listeners to checkboxes
+                document.querySelectorAll('.symptom-checkbox').forEach(checkbox => {
+                    checkbox.addEventListener('change', updateSelectedCount);
+                });
+            }
+
+            // Update selected symptoms count
+            function updateSelectedCount() {
+                const selectedCount = document.querySelectorAll('.symptom-checkbox:checked').length;
+                document.getElementById('selected-count').textContent = `${selectedCount} selected`;
+            }
+
+            // Initial render
+            renderSymptoms();
+
+            // Submit handler
+            document.getElementById('submit').addEventListener('click', function() {
+                const name = document.getElementById('name').value;
+                const age = document.getElementById('age').value;
+                const gender = document.getElementById('gender').value;
+                
+                if (!name || !age) {
+                    alert('Please enter your name and age');
+                    return;
+                }
+                
+                document.getElementById('result').innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Analyzing...';
+                
+                const selected_symp = [];
+                const list = Array(symptoms.length).fill(0);
+                
+                document.querySelectorAll('.symptom-checkbox:checked').forEach(checkbox => {
+                    const id = checkbox.id.split('-')[2];
+                    const index = parseInt(id) - 1;
+                    if (index >= 0 && index < symptoms.length) {
+                        list[index] = 1;
+                        selected_symp.push(symptoms[index]);
+                    }
+                });
+                
+                if (selected_symp.length === 0) {
+                    alert('Please select at least one symptom');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = document.getElementById('submit');
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                const insert = list.toString();
+                const insert_string = 'checkboxvalue=' + insert;
+                
+                fetch('/diagnose', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: insert_string
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data !== "Invalid Data") {
+                        // Update results
+                        document.getElementById('nm').textContent = name;
+                        document.getElementById('ag').textContent = age;
+                        document.getElementById('gd').textContent = gender;
+                        document.getElementById('syp').innerHTML = selected_symp.map(s => `<span class="symptom-pill">${s}</span>`).join(' ');
+                        document.getElementById('result').textContent = data;
+                        
+                        // Show results section with animation
+                        const resultsSection = document.getElementById('results-section');
+                        resultsSection.style.display = 'block';
+                        resultsSection.classList.add('fade-in');
+                        
+                        // Scroll to results
+                        resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        alert('Unable to process your symptoms. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                })
+                .finally(() => {
+                    // Reset button
+                    submitBtn.innerHTML = originalBtnText;
+                    submitBtn.disabled = false;
+                });
+            });
+            
+            // Simple symptom search
+            document.getElementById('symptom-search').addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                document.querySelectorAll('.form-check-label').forEach(label => {
+                    const symptomText = label.textContent.toLowerCase();
+                    const formCheck = label.parentElement;
+                    if (symptomText.includes(searchTerm)) {
+                        formCheck.style.display = 'block';
+                        label.classList.add('text-primary', 'fw-bold');
+                    } else {
+                        formCheck.style.display = 'none';
+                        label.classList.remove('text-primary', 'fw-bold');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
